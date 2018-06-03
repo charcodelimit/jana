@@ -1,0 +1,1747 @@
+patch 8563e5bbff7f1d355cfe0d514cb468816e0fc759
+Author: c.hofmann@utwente.nl
+Date:   Thu Jan  7 11:38:49 CET 2010
+  tagged Beta 11
+
+patch 345f6db20214750a316653b5b83fbe769783e951
+Author: c.hofmann@utwente.nl
+Date:   Thu Jan  7 11:34:13 CET 2010
+  * Changed Names
+  
+  chr: - due to the name clash with another Java analysis framework,
+         jada is now named jana
+       - the Java front-end and back-end is now consistently 
+         refferred to as FEE (FrontEndExtension)
+       - the Common-Lisp middle-end for processing JComet intermediate language 
+         metamodel instances is now consistently refferred to as JANA or CL-JANA
+       - Bugfixes
+         - corrected really-clean script, that also removes the analysis results
+           from a project
+         - the compiler is now correctly initialized
+            - the compiler instance was already used when the classpath changed,
+              which happens in the superclass of JJavaBcelRepository, whereas
+              the initialization of the compiler instance was done in the constructor
+              of JJavaBcelRepository 
+
+patch a1233f4a175646f065d4bd0fb1c723b153872fba
+Author: c.hofmann@utwente.nl
+Date:   Tue Dec 22 11:31:49 CET 2009
+  * Fixed Repository Clean-Up Scripts
+  chr: - fixed repository clean-up scripts
+         - pathname handling is now correct
+       - added class-cast example for array types
+
+patch 4f76c2e94d2d73a7c443b963eadb9139f481a214
+Author: c.hofmann@utwente.nl
+Date:   Thu Dec 10 13:59:35 CET 2009
+  * Added more Examples
+  chr: - added example of field accesses before the constructor is called
+       - added scripts for cleaning the repository
+       - added scripts for compiling and analyzing
+
+patch 0bd04261d5cb7489f2b21663cfca1919ef83417a
+Author: c.hofmann@utwente.nl
+Date:   Mon Dec  7 09:26:16 CET 2009
+  * Added new Example Classes
+  chr: - added new examples for arithmetic operations,
+         array accesses, type casting, and switching using
+         enum-values
+
+patch cc516f51550850e026d99845dfefc31a668d4e6a
+Author: c.hofmann@utwente.nl
+Date:   Tue Dec  1 09:54:56 CET 2009
+  tagged Beta 10.5
+
+patch ec59e6624ad5dbad78b6cfa1aefbee1a92573e18
+Author: c.hofmann@utwente.nl
+Date:   Tue Dec  1 09:37:33 CET 2009
+  * Files in the Project have now Precedence over the System Classpath
+  chr: - added command line option "which" that allows to debug the 
+         classpath settings and outputs the path from where a class
+         is loaded for analysis
+       - added status information output to PrepareProject, because
+         it was not clear when a project was created successfully
+       - added support for compressing or decompressing files after
+         the analysis
+         - the classname dictionary now only stores filenames without
+           a filename extension
+         - JJavaProject contains an additional entry where the 
+           filename extensions, which are used for compressed 
+           and uncompressed files, are stored
+       - put an upper bound on the time to wait for servers when 
+         a class file was not yet produced by the compilation process
+         - ensured termination when a class file could not be created
+           successfully due to compilation errors
+       - started to implement a GUI for managing the repository
+       - added functionality to compare classpath elements
+         - added test to decide when a classpath is contained in a
+           list of classpath element names
+       - re-initialization of the front-end and back-end has no
+         longer to wait for the GC to free memory
+       - reduced the number of times that the project is initialized
+         - the servers now start-up correctly when no project is 
+           provided, and can be initialized by providing a project
+           instance after start-up 
+       - added a boot-classpath entry for the SystemLibraries project
+         - allows to comprehend from which .jar files and directories
+           the analyzed classes were taken
+       - improved re-initialization of the compiler
+         - now, the classpath is only set when has not been initialized
+           yet, or is different
+         - avoided expensive creation of new classpath instances
+       - compiler now tests if line-numbers have already been added
+
+patch 0af0ade795d4b09dd9fb8ebbeecf4745ceb60636
+Author: c.hofmann@utwente.nl
+Date:   Thu Nov 26 22:21:17 CET 2009
+  * Added Timing Information to Analysis of System Classes
+  chr: - the analyses of system classes now also outputs timing information
+
+patch 047389331e9116ce636312f4988954094c92717c
+Author: c.hofmann@utwente.nl
+Date:   Thu Nov 26 22:19:35 CET 2009
+  * Bugfixes
+  chr: - added Soot compiler option, which keeps the Bytecode resulting from
+         compiling JIMPLE code more compact
+         - fixes Bug in SPEC2008 MPEGAUDIO, where the maximum number of Bytecodes
+           per method limit of 65536 was exceeded
+       - JadaRelativeFile now correctly distinguish between the creation
+         of files and the creation of directory entries
+         - fixes creation of directories when resources are extracted from JAR files
+       - added JadaRelativeDirectory to distinguish between files and directories
+       - extended JIMPLE compiler to allow the compilation of single files in a directory
+       - increased the function-call arguments-limit to 1768, as the lowest bound in current
+         CL implementations is 2047
+       - added output of overall run-time to Fee
+
+patch 1a4b8d6e60041609207642178e42d452c096a4ae
+Author: c.hofmann@utwente.nl
+Date:   Tue Nov 24 00:08:33 CET 2009
+  tagged Alpha 10.4
+
+patch 5b00c2cefffec9474d915762ffe8c9f16db59712
+Author: c.hofmann@utwente.nl
+Date:   Mon Nov 23 23:58:18 CET 2009
+  * Fixed Argument Length Bug
+  chr: - arbitrarily long lists are now split according to a maximum-argument-length limit
+         - makes jada compatible with lisps that support functions with at least 1024 arguments
+         - Successfully Tested with: clisp, sbcl, ccl, LispWorks
+         - Known not to work: abcl (limit 50 argouments)
+       - improved formatting of analysis output files
+
+patch c6b1d7186c90333fda4d7bbf857bad03e8354dc1
+Author: c.hofmann@utwente.nl
+Date:   Mon Nov  9 23:13:17 CET 2009
+  * Fixed Floating Point Bug
+  chr: - fixed bug in export of floating point numbers, when the value was NaN
+       - added Bug description for several other Bugs found during testing of 
+         Java Applications from the SPECJVM2008 Benchmark Suite, and the
+         DaCapo Benchmark Suite
+
+patch 7b47648184319d9391fdac4ff0add61aa4896be1
+Author: c.hofmann@utwente.nl
+Date:   Sun Oct 18 22:59:47 CEST 2009
+  tagged Beta 10.3
+
+patch 0136c61f4667de77c79beade3f5d5aa1e9ac6641
+Author: c.hofmann@utwente.nl
+Date:   Sun Oct 18 22:58:58 CEST 2009
+  * Added System Library Analysis
+    chr: - added application to analyze the Java system libraries
+         - the transitive hull of the analyzed classes are
+           now only those classes that were not yet analyzed,
+           and which are not in the system libraries
+            - the names of all classes in the java system libraries
+              project are loaded when a project is analyzed
+         - recording referenced object types and recording super types
+           can now be toggled
+            - retrieving the recorded types will reset the list of
+              recorded types!
+         - fixed slowdown due to parallel garbage collection
+            - the analysis continues when the garbage collection was
+              successfull or a timeout was reached
+            - fixed cyclic referencing in soot that prevented effective
+              garbage collection by adding methods that release references
+              and thus break cycles
+            - for Soot now two reset modes are implemented:
+              - a cheap release of all bodies
+              - a complete reset of all global caches
+            - memoization caches for Jada objects are now emptied regularly,
+            which prevents their boundless growth
+            - added a reset-cycle counter to prevent continuous resets when
+              memory runs low
+         - cross-referencing mode is now the default mode for analyses
+           with FEE
+         - added classpath and classpath directory classes, that are modeled
+           similar to JarFile and will replace the current directory traversal
+           code in JJavaClasspath
+            - JadaClasspath is responsible for knowing about classpath
+              jar-files and classpath-directories
+            - JadaClasspathDirectory is reponsible for recursively
+              collecting information about classes in a directory
+         - added debug information class, that was missing from
+           previous check-ins
+         - added more examples
+
+patch 5cfac4c9235107c1b352bffd866764030e06647f
+Author: c.hofmann@utwente.nl
+Date:   Tue Sep 22 09:33:03 CEST 2009
+  tagged Beta 10.2.1
+
+patch 6d88c8d9cea453be7f03a2c182e885945bbfe11c
+Author: c.hofmann@utwente.nl
+Date:   Tue Sep 22 09:31:05 CEST 2009
+  * Added Analysis of Directly Referenced Classes
+  chr: - directly referenced classes are now analyzed as well
+         (1 level cross-reference resolution)
+       - fixed verbose and debug output options of FeeStarDustServer
+
+patch 5d89dff407bc52d8565263db26ab59d3871962c4
+Author: c.hofmann@utwente.nl
+Date:   Wed Sep  2 23:04:48 CEST 2009
+  tagged Beta 10.2
+
+patch 1e9ac70cb4165df8eea75854c9f8553dbfb9d732
+Author: c.hofmann@utwente.nl
+Date:   Wed Sep  2 23:02:30 CEST 2009
+  * Fixed Debug-Information Lookup for Methods
+  chr: - lookup of line-numbers for methods now uses
+         the reduced java signature, which only includes the
+         method-name, and argument types
+       - extended synchronization example with synchronization
+         using a lock associated with a class-instance
+
+patch f7f56bfd35a9ff8ca38e1b396d4b2c47097c284b
+Author: c.hofmann@utwente.nl
+Date:   Fri Aug 28 10:10:46 CEST 2009
+  * Added Support for Debug Information in the Compiler
+  chr: - added class responsible for loading the debug-information
+       - added project attribute for the debug-information file
+         - debug-information is loaded once, 
+           when a project is loaded
+       - the soot-based compiler now adds line-number and source-file 
+         attributes to the loaded Jimple representation,
+         before it is compiled to Java Bytecode
+       - improved symbolic-expression vector-list
+         - during loading, the empty list is generated for the symbol NIL,
+           instead of loading the symbol NIL 
+
+patch 2e9773c6d8d174788c97e329e7e20abb9b28ea0e
+Author: c.hofmann@utwente.nl
+Date:   Wed Aug 26 22:55:29 CEST 2009
+  tagged Alpha 10.2
+
+patch 5097b69f7fef4672fce511b085347301857ffbb1
+Author: c.hofmann@utwente.nl
+Date:   Wed Aug 26 22:52:35 CEST 2009
+  * Added Support for Debug Information in the Metamodel
+  chr: - added attributes to classifier and instructions 
+         for source-file-name and line-number
+       - modified symbolic expression conversion accordingly
+         (only for compound/top-level instructions that have a line-number)
+       - modified closure factory to produce line-number information
+
+patch d6aff6432aff31dddd35b4d31a48dcd538db5e24
+Author: c.hofmann@utwente.nl
+Date:   Tue Aug 25 21:42:36 CEST 2009
+  tagged Beta 10.1
+
+patch c39a9b3f3bcfb75ad31a39620553bf3b7cd7bd7e
+Author: c.hofmann@utwente.nl
+Date:   Tue Aug 25 21:40:54 CEST 2009
+  * Changed Implements Relation in Metamodel
+  chr: - changed the implements relation in  the metamodel,
+         removed sub-types of implements relations (e.g. sub-implementor)
+
+patch 1994b191130fd8c09ad7d131f2342025e2911a0a
+Author: c.hofmann@utwente.nl
+Date:   Mon Aug 24 10:36:27 CEST 2009
+  tagged Beta 10
+
+patch 449f044962a03fbc3925ea4d0dc5284b08abf838
+Author: c.hofmann@utwente.nl
+Date:   Mon Aug 24 10:33:38 CEST 2009
+  * Added Exceptions to Closures
+  chr: - added a list of exceptions that a closure might throw during execution
+         to the attributes of a closure
+       - argument-types, and exception-types objects are now taken from the 
+         method-declaration instead of recreating these objects for the closure
+
+patch 4c27226b0220cdd2cc00d5f389fb5dabcd2ff494
+Author: c.hofmann@utwente.nl
+Date:   Fri Aug 21 10:34:43 CEST 2009
+  tagged Beta 9
+
+patch e019bfced9b68a37747dca9b2edf7542e138034c
+Author: c.hofmann@utwente.nl
+Date:   Fri Aug 21 10:32:03 CEST 2009
+  * Changed name of Jimple-Reference-Value-Parameter
+  chr: - changed the name of jimple-reference-value parameter to
+         jimple-reference-value-argument to make Jada compatible
+         with the unified naming of method-argument related objects 
+         and methods in cl-jada
+
+patch 516b5dcf033438d20a403fc55cfca47590f9549b
+Author: c.hofmann@utwente.nl
+Date:   Wed Aug 19 23:04:21 CEST 2009
+  * Fixed Classpath Option
+  chr: - the classpath option is now no longer overwritten
+         by the project's classpath when an existing project is loaded
+
+patch 8761586616015f168f050f9b9d542974750dab2c
+Author: c.hofmann@utwente.nl
+Date:   Mon Aug 17 10:22:19 CEST 2009
+  * Class-Hierarchy Analysis
+  chr: - added analysis of all classes in the class-hierarchy of a project
+         - this is now the default option for fee
+
+patch ec0b65b749e304a86feccd8e9fe0689f40270f78
+Author: c.hofmann@utwente.nl
+Date:   Thu Jul 16 22:30:31 CEST 2009
+  * Added support for synthetic modifier
+  chr: - added support for synthetic modifier
+       - prepared support for var-arg and bridge modifiers
+
+patch 6c138d3dbbf949d27eb85e74449d81a68ff1c8f1
+Author: c.hofmann@utwente.nl
+Date:   Sun Jul  5 23:02:11 CEST 2009
+  * Added generation of target-labels
+  chr: - added serial-version ID to types, in order to satisfy the serializable interface 
+         that is needed to collect the referenced types from the servers
+       - local control transfer functions now also store the target-lable 
+       - target labels are now used in the jada-metamodel instead of target-indices
+         to indicate targets of local control-transfer
+
+patch e56720a4c5051b4ab917eecc89ab4d064c2651ba
+Author: c.hofmann@utwente.nl
+Date:   Wed Jul  1 00:24:21 CEST 2009
+  * Implemented Distributed Analysis of Referenced Types
+  chr: - added remote interface to synchronize the types referenced 
+         independently by the analyses on the servers
+       - fixed marshalling required to submit the signatures of the
+         analyzed classes to the scheduler FeeStarDustServer
+       - implemented distributed analysis of all referenced types
+
+patch 806a0bd10e41a3011e22a380943d76ba364e698a
+Author: c.hofmann@utwente.nl
+Date:   Tue Jun 30 00:37:11 CEST 2009
+  * Added Resolution of Referenced Classes
+  chr: - added resolution of classes referenced by the analyzed classes
+         - superclasses and referenced classes are now analyzed as well,
+           which allows to implement interprcedural analyses
+         - the transitive closure is calculated conservatively and
+           includes also references from method-bodies, which are never
+           executed
+
+patch 6d8e3151bd12e39ac79a733f02caa15bdb3ad423
+Author: c.hofmann@utwente.nl
+Date:   Fri Jun 19 09:17:27 CEST 2009
+  * Simplified ClassnameMapFile Synchronization
+  chr: - all servers change now the classname map via remote method-calls
+       - only the central fee server writes the classname map, which
+         requires less synchronization
+       - fixed Bug in checking if the filesystem supports locking
+         - locks were not released, and the random-access file was not
+           closed
+
+patch 512023d1796d7f1c592edbbd7366e4861802d739
+Author: c.hofmann@utwente.nl
+Date:   Wed Jun 17 22:14:00 CEST 2009
+  * Improved Error Handling and Extended Metamodel
+  chr: - added error handling to Fee, such that when no files for compilation
+         are found no attempt is made to start the compilation process
+         - starting the compilation process on an empty transformation-output 
+           directory and having the names of the transformed classes in the 
+           project file will lead to errors otherwise
+        - fixed the metamodel. local-variable-value is now a subtype of
+          reference-value  
+
+patch 1ab13d50dfe7bb8799601e1f580c09ec6d3fdbfc
+Author: c.hofmann@utwente.nl
+Date:   Fri Jun 12 23:03:27 CEST 2009
+  * Double-Value Handling Bugfix
+  chr: - fixed major bug in handling of double values
+         - double values are now printed as common-lisp double values
+           using the exponent indicator #\d
+         - fixed determination of floating-point value range.
+           The value 0.0 is no longer considered out-of-range,
+           even though it is smaller than the smallest float value
+       - added examples for reserved name handling 
+
+patch 0a44df1bd25f6fdfc780ddb63cbe6859cd7fdc34
+Author: c.hofmann@utwente.nl
+Date:   Thu Jun 11 20:18:27 CEST 2009
+  * Added Extraction of Resources
+  chr: - added extraction of resources from the original .jar file,
+         which are then included in the final .jar file
+       - added methods to JadaJarFile for adding classes and resources
+       - improved command-line options for prepare-project
+       - fixed interface of JadaRelativeFile, the base directory
+         is now also called baseDirectory instead of parentDirectory
+
+patch f3c17fc3691b58208eb654b07f5d7bb16fdab87f
+Author: c.hofmann@utwente.nl
+Date:   Mon Jun  8 22:52:22 CEST 2009
+  tagged Alpha 8
+
+patch bcda14c021feb4e85939b67197a1ef7f19495e74
+Author: c.hofmann@utwente.nl
+Date:   Mon Jun  8 22:38:10 CEST 2009
+  * Implemented Working Distributed .jimple Compiler
+  chr: - implemented compile option in fee.Fee
+       - fixed bug in compiler worker-thread creation
+         - now uses correct type FeeCompilationThread 
+       - added creation of a final project .jar-file 
+         after compilation finishes
+       - factored out compiler from StarDust into its
+         own class, which hides the soot specifics
+       - fixed compiler -- now correctly updates Soot's 
+         hierarchy and only analyzes the current class
+         once by making it a libraryClass after the 
+         compilation finished
+       - fixed JavaProject and JJavaClasspath, 
+         which now allow to create an absolute classpath
+         using the relative library file classpath
+       - JJavaRepository is now responsible for managing the
+         compiler too
+       - the Soot's caches are now only reset if they contain
+         some elements 
+
+patch c0d8d6a8e06685bc997730f195ad59beb90466a9
+Author: c.hofmann@utwente.nl
+Date:   Fri Jun  5 22:02:38 CEST 2009
+  * Added Support for Comments in Project Files
+
+patch 3a7dfcbf4ae261c18dd50905152ab508738c989e
+Author: c.hofmann@utwente.nl
+Date:   Fri Jun  5 21:09:43 CEST 2009
+  * Prallel Compilation of Jimple Intermediate Representation
+  chr: - extended the project-file format to support
+         the compilation of the jimple representation 
+         of the transformed jada meta-model
+       - added compile and analysis options to fee
+       - implemented a FeeCompilationThread
+       - factored out related functionality of 
+         compilation-thread and analysis-thread into
+         FeeWorkerThread
+       - added compilation functionality to StarDust (untested)
+       - fixed parsing of symbolic-expression vector-lists
+         - added support for dotted lists and nil-values
+
+patch b903d9d434860834bc46f7f816c117a5113f8c25
+Author: c.hofmann@utwente.nl
+Date:   Tue Jun  2 23:06:17 CEST 2009
+  * Added Support for Deflate Compressed Analysis Data
+  chr: - added support for storing the analysis output
+         using (an extended version of) zlib deflate 
+         compression.
+       - added an application to compress and decompress
+         files using the zlib deflate format described
+         in RFC 1950.
+
+patch b645a6b7e6eed6ab759f28915cfd62705e4836ef
+Author: c.hofmann@utwente.nl
+Date:   Tue May 26 21:25:59 CEST 2009
+  tagged Beta 7
+
+patch da37d28a0458abc34be9015f473fe1f675ee5cc6
+Author: c.hofmann@utwente.nl
+Date:   Tue May 26 21:19:12 CEST 2009
+  * Fixed Project-File Parsing
+  chr: - fixed project-file parsing
+         - now handles empty values correctly
+       - more userfriendly output of project-file (added linebreaks)
+       - changed appending of Strings to appending of chars in symbolic expression conversion
+
+patch c7677415f7e5aa92c090cfadc480ee0eaf045224
+Author: c.hofmann@utwente.nl
+Date:   Tue May 26 00:20:26 CEST 2009
+  * Workaround for Soot Bug
+  chr: - reduced code-duplication in the implementation of the analysis of classfiles in StarDust
+       - added a static variable to disable resetting of caches for debugging purposes
+       - improved information hiding
+          - the number of methods in a class is no longer needed for creating a closure
+          - the BCEL class and the SOOT class are no longer accessible from JJavaClassifier
+       - the closure-factory no longer needs the discard method.
+         The local variable memoization-cache is reset when a new closure-factory 
+         is instanciated, instead.
+       - Extended and Refactored JJavaMethodImplementation
+          - added copy constructor for JJavaMethodImplementation
+          - pulled up Symbolic expression conversion from JJavaBcelMethodImplementation
+       - JJavaSootClosureFactory is now responsible for setting up the 
+         Jimple analysis done by Soot
+       - added a workaround for a Bug in Soot, where the FastHierarchy is reset when a new
+         class is analyzed, but when a known class is analyzed it is not reset
+       - modularized the comparison of SootMethods and JJavaMethodImplementation by adding 
+         JJavaSootMethodImplementation.
+         This refactoring also improves the code for finding a match between a 
+         JJavaMethodImplementation and the corresponding SootMethod
+       - fixed bug in JJavaSootJimpleLocalVariable, which could lead to returning wrong instances.
+         The memoization cache now uses the fully qualified name of the variable-type as key together
+         with the variable-name.
+
+patch 31fff1f28c600709d560b42c3e971e67451514f3
+Author: c.hofmann@utwente.nl
+Date:   Mon May 25 00:12:11 CEST 2009
+  * Various Fixes; Closure Creation Still Contains Faults
+  chr: - fixed verbose logging
+       - fixed null-pointer exception when classname was ""
+       - fixed hashCode calculation for output-file naming
+          - uses now the qualified name, which leads to less collisions
+       - the StarDustRemoteServer now waits for the analysis to finish before stopping
+       - resetting the caches, when no abstract closure-factory was set no longer
+         leads to errors
+       - fixed comparisons of types (now uses the fully qualified type-name)
+       - added memoization for BCEL types
+       - a summary of the classfile both from BCEL and Soot is added as comment
+         to the output file (added for debugging -- to be removed later)
+       - added comparison of method signatures
+       - fixed creation of signatures from binary names as used in .class files
+         (e.g. Ljava/lang/Object;)
+       - implemented annotation element-value pair handling for all types, except array-types
+       - annotations are now stored in lists to preserve the order found in the
+         .class file
+       - closures are now found for corresponding method declarations using their
+         position in the .class file
+         - if Soot and BCEL disagree about the number of methods in a .class file,
+           closures are searched for by matching the method signature
+         - Soot still produces sometimes (when executed using multiple servers)
+           wrong closures (even though they seem to be semantically correct, is the
+           JIMPLE code unoptimized -- looks like a phase is skipped)
+       - removed set to SymbolicExpression conversion, as sets are no longer used
+         to preserve the ordering of class-elements found in the .class files
+       - fixed bug in SymbolicExpressionVectorList parsing, which created empty atoms
+         -  multiple whitespaces are now skipped correctly
+
+patch efacb8be77673fb6948b116cf8f3bd50f4492a59
+Author: c.hofmann@utwente.nl
+Date:   Thu May 21 09:25:22 CEST 2009
+  * Major Changes to Logging and Lisp File Output
+  chr: - refactored exception handling (has now its own package, added new exceptions)
+       - added own custom logger that supports verbose logging and added
+         an appender that does not disturb the cli
+       - refactored logging in whole project accordingly
+       - improved command line handling for Fee and ProjectInfo 
+         (now supports short-options and verbosity)
+       - made authorname consistent (3 letter shorthand instead of login)
+       - replaced System.err.println output with according verbose or error logging
+       - added JavaDoc documentation for filesystem locking
+       - improved the locking scheme for lisp-file output
+       - improved the naming scheme for output lisp-files
+          - instead of just using the unqualified classname, the shortened unqualified
+            classname is used together with the hashValue
+          - the naming should guarantee with high probability that different StarDustRemoteServer 
+            processes normally do not interfere
+          - if two processes try to write the same file, the locking scheme guarantees exclusive
+            access to the file, and a counter is used to create two files with different names
+       - improved locking scheme for locking the java class-name map and made the error handling
+         more robust w.r.t file-system errors
+       - fixed bug in the creation of JJavaBcelAnnotation instances. 
+         Instead, JJavaBcelClass instances were created.
+
+patch feee79693205c46756539c39328ac20afb7ff781
+Author: c.hofmann@utwente.nl
+Date:   Tue May 19 23:04:48 CEST 2009
+  * Fixed Annotations
+  chr: - fixed BCEL typesystem
+       - fixed Annotations. Annotations are now limited to simple annotations
+         that contain element-value pairs with basic java types as values.
+       - added BCEL tests to check if annotation processing works
+
+patch e173b2bae49b69577e43775fd545d6ea9e841760
+Author: c.hofmann@utwente.nl
+Date:   Mon May 18 23:45:54 CEST 2009
+  tagged Beta 5.1
+
+patch bbb342e30522e6686296fe8a10d8759bf7682c23
+Author: c.hofmann@utwente.nl
+Date:   Mon May 18 23:44:55 CEST 2009
+  * Changes to File Format
+    chr: - removed saving of classpath per class.
+           The classpath is stored in the project-file.
+         - added class ProjectInfo, which gives reliable information
+           about the number of classes in the dictionary, and the classes
+           that have been analyzed. The number of analyzed classes reported
+           by Fee may be wrong due to disc-cache or network latencies.
+         - added project option to Fee, which obviates the need to give a 
+           fully qualified project-file-name.
+         - implemented a more conservative locking approach for saving
+           the classname dictionary.
+         - StarDustRemoteServers now also report the version of the JVM they
+           are running on.
+         - Added isAlive() method and separated requesting version information
+           from connection testing.
+         - Added additional error handling. In case that the filesystem does
+           not support locking, the StarDustRemoteServer will now throw an exception
+           before the analysis starts.
+         - Improved Beta-5 test and fixed changes in test cases due to 
+           project name handling.
+
+patch e376e35689055a19b0f7a115997605cda24564b8
+Author: c.hofmann@utwente.nl
+Date:   Sat May 16 13:51:26 CEST 2009
+  tagged Beta 5
+
+patch 279a4cf24642b194a1d8908772ac73852fc4eb54
+Author: c.hofmann@utwente.nl
+Date:   Sat May 16 13:21:37 CEST 2009
+  * Major Reduction of Memory Consumption
+  chr: - added O(1) association lists that need only one vector and
+         a HashMap to store tuples of elements
+       - added abstract class that implements the common interface for
+         association lists
+       - JJavaExistingProject no longer uses association lists to 
+         parse existing project files
+       - the watchdog thread of the FeeStarDustServer that checks if
+         the used StarDustServer compute nodes are still alive, will 
+         only be started on demand
+       - all local servers started by the FeeServer, 
+         are now stopped upon finalization of FeeServer
+       - fixed bug in the calculation of job sizes, 
+         that lead to a division by zero if no remote server was available
+       - resetting of caches is now solely the responsibility of the dictionary
+         and the JJavaAbstractClosureFactory
+       - refactored JJavaPackage - all storing of parent and child elements was
+         removed, as parent packages are calculated on the fly, 
+         and child classifiers are not requested over the package name
+           - conceptually, packages now only serve as identifiers, or namespace
+             elements, no longer as first-class elements that contain other 
+             elements
+           - this allows class instances to be garbage-collected as soon as they
+             are written to disc
+       - analyzing classes with BCEL is now solely the responsibility of 
+         JJavaBCELRepository
+       - added memoization for local-variable values
+       - memoization of JJavaSootTypes no longer uses the soot Type instances
+         as key. These will change when Soot is resetted using G.reset(), 
+         and will keep references to these obsolete instances.
+         Instead, the fully qualified type signature is used as key.
+       - some speed improvements through reordering condition tests, 
+         and adding of boolean variables to avoid recalculation of predicates.
+       - fixed problems in JadaRelativeFile and Symbolic expression parsing 
+         that are related to copying strings without copying the underlying
+         character arrays. This lead to passing of too large character arrays
+         after calls to substring().
+
+patch 46538e218b375b9b41e5545a969e76b5decc4308
+Author: c.hofmann@utwente.nl
+Date:   Thu May 14 21:51:26 CEST 2009
+  * Major Refactoring + Optimizations
+  chr: - removed JadaDictionary, because zlib compression is faster, 
+         achieves better compression, and is less complex
+       - added generic types and fixed all unchecked conversion warnings
+       - removed the compact option
+       - optimized checking of instruction type for global control transfer
+         instructions
+       - optimized logging of debug information 
+         (allows jitter to skip the creation of the debug strings)
+
+patch 588dc405d2f0bf07c0a91bfae8794889d00467b9
+Author: c.hofmann@utwente.nl
+Date:   Wed May 13 23:19:04 CEST 2009
+  * Implemented Terse Mode
+  chr: - added terse mode, which uses zlib compression to store the 
+         analysis results in GZip format
+       - factored out the compression state into the class StarDustServer
+
+patch 5b268aed7a024b147fb12cb8d0547ab4b06c9c4f
+Author: c.hofmann@utwente.nl
+Date:   Wed May 13 23:15:57 CEST 2009
+  tagged Beta 4
+
+patch 18206bd749aa2b5e6962f2d990bdd8387120d5be
+Author: c.hofmann@utwente.nl
+Date:   Tue May 12 21:53:30 CEST 2009
+  * Major Bugfixes + Memory Management
+  chr: - reduced the memory requirements for the analysis
+         of class-files
+       - added heuristics to flush the caches of the
+         Bytecode analysis front-ends when the program
+         runs out of memory
+       - fixed problem that the fee server kept running
+         (using System.exit(0) -- see if finalize can be made
+         to work reliably
+       - added missing closing of file streams
+
+patch c021d9a586f36db1315e8f8fa5c60fdb986f5d22
+Author: c.hofmann@utwente.nl
+Date:   Mon May 11 22:18:24 CEST 2009
+  * Minor Bugfixes
+  chr: - fee server now no longer uses the singleton pattern
+       - using the GUI works again.
+       - StarDustCLI no longer requires the -cli option.
+         Instead, the FeeServer determines if it uses a GUI or CLI.
+       - added counters to improve the update of views
+       - added low memory watchers to minimize memory usage of BCEL
+         when less than 1/8th of the maximum available memory are free
+       - fixed hang in Fee using a System.exit(0)
+          - finalize() still doesn't work in all cases
+
+patch bca387baa443067052e89947292d0ac183cb1c6f
+Author: c.hofmann@utwente.nl
+Date:   Sun May 10 22:36:17 CEST 2009
+  * Implemented CLI Mode
+  chr: - implemented a true CLI mode that does not start up 
+         a user interface (the previous version just hid the GUI)
+       - changed parsing of association lists to use an index
+         instead of creating substrings
+
+patch d75149624fce2d111b6ea5e0b5c55ab242094fa9
+Author: c.hofmann@utwente.nl
+Date:   Sun May 10 00:23:28 CEST 2009
+  * Implemented Symbolic Expression Parser
+  chr: - implemented own symbolic expression parser to
+         speed-up the parsing of existing project-files
+       - approx. factor 10 improvement over Jatha's parsing algorithm
+         that was used
+
+patch b1510cf7a9e02df338ce3c6db147796f98f83732
+Author: c.hofmann@utwente.nl
+Date:   Fri May  8 20:56:43 CEST 2009
+  * Implemented Batch Processing
+  chr: - the parallel analysis is now split into batches of classfiles
+         that are analyzed by the remote servers
+
+patch 428d90f53c42a163b55fec466036b020b8caa715
+Author: c.hofmann@utwente.nl
+Date:   Fri May  8 18:56:57 CEST 2009
+  * Major Bugfixes
+  chr: - fixed synchronization problems with writing the classname-dictionary
+         to the disc
+       - added a notify, wait barrrier to synchronize the analysis threads
+       - re-enabled synchronization for critical parts of FeeServerStatusFrame
+       - added option to explicitly allow overwriting of copied .jar files
+       - added searchable classpath
+       - added error handling to association list parsing
+       - added classname-map as specialization of association list
+
+patch 9e94a115a3d3fa13ea3c685943e7221689522eb2
+Author: c.hofmann@utwente.nl
+Date:   Fri May  8 00:42:49 CEST 2009
+  * Added Support for Concurrent Analyses of Project Files
+   chr: - modified fee
+           - removed synchronization from view updates that caused deadlocks
+             (everything should be synchronized by the updated frames)
+           - simplified FeeAnalysisThread considerably
+              - servers are assigned during construction
+              - synchronization between initialize and analyze only
+              - can now be used for the local StarDust server as well
+           - implemented concurrent analyses in FeeStarDustServer using
+             java.util.concurrent.Executor to manage the worker thread pool
+           - implemented the remote interfaces that allow the use of
+             project files
+        - Bugfixes, added tests
+        - Beta 4 test runs through 
+
+patch 954e6e808b489b4a6f6b80e12bce70cbec7e698a
+Author: c.hofmann@utwente.nl
+Date:   Tue May  5 21:50:24 CEST 2009
+  * Minor Bugfixes (Interim)
+  chr: - minor bugfixes in JJavaSourceProject
+            - the initial classpath is now empty,
+              and the project jar-file is added to the project classpath
+       - fixed all beta-tests
+       - implemented Beta 4 test, which does not successfully runs through yet!
+  TODO: - check
+   
+
+patch 8509c705e05740e753ba7e0a2e4987ad8167ead0
+Author: c.hofmann@utwente.nl
+Date:   Mon May  4 22:38:31 CEST 2009
+  * Major Refactorings JJavaProject - Interim
+  chr: - changed the analysis-repository structure such, that the 
+         data for each project is stored in a separate directory
+       - added JUnit test-cases
+       - factored out test-runner from Alpha and Beta tests
+       - major refactoring of classpath, can now determine the user added 
+         classpath, copy the classpath elements into a library directory,
+         determine all classes in the classpath, or single directories,
+         calculate a directory name relative to the classpath
+       - added classes for relative files, jar files, class files
+       - java projects come now in several flavors:
+          - project, imaginary-project, source-project, source-jar-project,
+            and existing-project
+       - split up the classname-dictionary functionality and the functionality
+         to write the dictionary into a file
+  
+  ToDo: - run beta tests
+        - fix fee/stardust/*
+
+patch d42f64a7484fc6ceec319cf039dea71c11d2fd49
+Author: c.hofmann@utwente.nl
+Date:   Tue Apr 28 22:41:07 CEST 2009
+  * Added Test-Cases, Refactored Classpath
+  chr: - refactored classpath into classpath and default classpath
+       - added JUnit4 test-cases
+       - added RelativeFile to deal with a distributed repository
+       - added JadaJARFile to factor jar specifics out of JJavaJARFileProject
+
+patch 4eef0645bd6d12ea84fe84622ccaafb46b2d8b64
+Author: c.hofmann@utwente.nl
+Date:   Sat Apr  4 23:03:26 CEST 2009
+  tagged Beta 3.1b
+
+patch aaff0d9a801df05df7cf08808faa215833e030d5
+Author: c.hofmann@utwente.nl
+Date:   Sat Apr  4 23:01:18 CEST 2009
+  * Added JAR file project support
+  chr: - added support for adding new projects to the repository,
+         where the sources are taken from a .JAR file
+
+patch 8bff92c25f80cbdbd2f77f19585648a1fae2657c
+Author: c.hofmann@utwente.nl
+Date:   Sat Apr  4 22:25:03 CEST 2009
+  * Bugfixes + Java 5 Compatibility
+  chr: - removed use of Java 6 only navigableKeySet() method
+       - AssociationList tried to re-throw an exception without 
+         converting it first to a String
+       - fixed bug where saving the classname map was enabled even
+         though the full output document format was used
+       - fixed command line options for Jada
+
+patch d618238aa102377c5236a1a75e8a7052fa936b61
+Author: c.hofmann@utwente.nl
+Date:   Fri Feb 20 22:32:04 CET 2009
+  * Added (optional) support for Soot dev 3307
+  chr: - added support for soot dev 3307, which requires
+         that whole-program analysis is enabled, and all necessary 
+         classes are loaded
+         - this slows down the analysis! soot 2.3.0 is still recommended!
+
+patch 16fe07b2c6f38a42367908e08da10b2756c21655
+Author: c.hofmann@utwente.nl
+Date:   Wed Jan 21 22:51:56 CET 2009
+  * Improved Jimple Compiler Performance
+  chr: - turned off default optimization options that are not
+         necessary as jimple code is analyzed
+       - tured on optimizations that are necessary to remove 
+         performance issues introduced by the jimple transformation:
+          - locals packer, as new locals are introduced for values passed over 
+            the stack, these additional locals need to be removed
+          - load/store optimizer, as <bipush> instructions are translated into
+            two separate stores to locals
+       - measured the performance for jgf-moldyn on
+         IBM J9 VM (build 2.4, J2RE 1.6.0 IBM J9 2.4 Linux amd64-64 
+         jvmxa6460-20080415_18762 (JIT enabled, AOT enabled).
+          - the optimizations (locals packer + load/store) 
+            outperform the original javac compiled sources 
+
+patch 47b2c1417f5f2edd11c460fd8c6aea16299c05d9
+Author: c.hofmann@utwente.nl
+Date:   Tue Jan 20 23:09:18 CET 2009
+  tagged Beta 3.1a
+
+patch bf3bab01993371e807d26c3bf38ab052b6abbc65
+Author: c.hofmann@utwente.nl
+Date:   Tue Jan 20 22:57:04 CET 2009
+  * Finished Test Compiler + Major Bugfixing
+  chr: - added classpath option to Jada
+       - finished a test-compiler for .jimple files
+         (still needs a CLI)
+       - Fixed Bug in JJavaBcelInterface that prevented static initializers
+         from being exported:
+            -  removed addMethodDeclaration() 
+               and modified JJavaBcelClassifier such, that a declaration
+               is added if no body was declared 
+       - Fixed Bug in translation of escape sequences:
+            - The String "\\\\" was translated to "\\\\" instead of "\\\\\\\\"
+
+patch b0c1dad62dcc9e4809212d2dfed5390c1eefc08e
+Author: c.hofmann@utwente.nl
+Date:   Thu Jan 15 22:44:43 CET 2009
+  * Bugfixes, added Classpath feature
+  chr: - fixed bug in symbolic expression conversion of string constants
+         (corrected number of '\' characters needed to create correct 
+          escape sequences for CL)
+       - TestSoot now quits when no classname is provided on the command-line
+       - added -classpath option to fee and stardustCLI, which makes it possible
+         to add elements to the analysis classpath
+         - modified JJavaClasspath, JJavaProject, StarDust, and FeeStarDustServer
+           accordingly
+       - FeeServerStatusFrame is now no longer visible when only the CLI is used
+
+patch 2e3427aaaaf064ae7357b67ba76706e10b9ff53f
+Author: c.hofmann@utwente.nl
+Date:   Thu Dec 18 10:02:13 CET 2008
+  * Added Repository Parameter to Fee
+  chr: - fee can now take the parameter -repository which indicates the directory
+         where analyzed files should be stored.
+         The current directory where fee was started is used when no repository
+         directory was given
+
+patch 888d2a56f9ba64c88259d65fb1a9891bccaae994
+Author: c.hofmann@utwente.nl
+Date:   Fri Dec  5 00:24:59 CET 2008
+  * Fixed Classpath Bug in StarDust and Small Improvements
+  chr: - fixed the classpath bug found in JJavaBcelRepository.analyze()
+         in StarDust.analyze() too
+       - StarDust.analyze() now also uses the SyntheticRepository
+       - improved the look-up of dictionary entries, now a binary search
+         algorithm is used
+       - projects are now saved including their names, if it is defined
+       - inner classes are now analyzed using the repository and no
+         longer by a custom analyze method inside JJavaBcelClassifier
+       - added better error-handling to PrepareRepository
+       - ToDo: 
+           - add a function to JJavaBcelRepository that allows to clear
+             the cache of the bcel.SyntheticRepository
+           - clear the cache after a class has been successfully analyzed
+             
+  
+
+patch 99ed669b60f3a216a0d8b5c94f74a42607f3a3cb
+Author: c.hofmann@utwente.nl
+Date:   Wed Dec  3 22:53:27 CET 2008
+  * Added Application to Prepare a Project for Analysis + Major Bugfix
+  chr: - the classpath managed by the repository was not used when classes were
+         analyzed with BCEL's Repository class
+       - fixed, the implementation now uses SyntheticRepository
+       - Added methods to JJavaProject to deal with classname-lists and 
+         classpath strings
+       - Implemented an application that allows to prepare a project-file and
+         the corresponding JAR file using JJavaProject
+       - changed the package structure of Fee: all classes that implement only
+         server functionality were moved to fee.server.
+       - only classes that fee.Fee directly depends on remain in the package
+         fee
+       - moved the StarDustCLI user interface to the fee package too, to 
+         have a single entry point into the system (namely the package fee)
+
+patch bcde03695dc2b4dc088050cf1dcacd876f88a74a
+Author: c.hofmann@utwente.nl
+Date:   Mon Dec  1 22:25:00 CET 2008
+  * Tested and Fixed Symbolic Expression Conversion
+  chr: - tested the symbolic expression conversion using the classes from the
+         lisp/make-examples.lisp script
+       - added the missing "void toSExpression(StringBuffer aStringBuffer)"
+         methods
+       - fixed the BetaOneOneTest and made it more change-independent from
+         the classes used for testing. The test was broken, as the aspect 
+         annotation classes were moved to the open.weaver.annotations package
+
+patch 7c1f307647bad922da51a2ad3e3bc07817658175
+Author: c.hofmann@utwente.nl
+Date:   Sat Nov 29 12:58:32 CET 2008
+  * Extension of Fee and JJavaProject
+  chr: - extended Fee to support analysis of classes whose name was
+         given as command-line argument
+       - separated Fee server startup and the Fee server mode
+       - stopping the Fee server now also stops the StarDust and Foil servers
+       - documented the Fee server public interface
+       - removed the reference count which could grow unbounded and replaced it
+         against a flag
+       - added exceptions if server settings are changed  before a server is 
+         started
+       - added support for locally analysing a set of classnames
+       - added project jar-file support to StarDust. Project jar-files can be 
+         added to the analysis classpath and removed again if the analysis 
+         is finished.
+       - added switch to allow purely structural analysis of classes without
+         analysing methods
+       - no method implementation object will be generated anymore for
+         abstract methods. Instead a method declaration object is generated.
+       - changed JJavaClasspath to include support for adding and removing single
+         classpath elements
+       - marked all methods that are related to loading files and packages as
+         deprecated. This is clearly the responsibility of the used Bytecode 
+         analysis frameworks.
+       - extended JJavaProject to prepare the project repository by
+         JARing all the project's source .class files and searching for aspects 
+         in the  project's classes
+       - added methods that allow storing the project in a lisp file that can be
+         used by the open-weaver
+       - created packages for the open weaver and moved all aspect related 
+         annotation classes into this package tree
+       - ToDo:
+          - change the design such, that project is also responsible for the 
+            classname dictionary and storing the analysis results in the 
+            project-directory
+
+patch cb812c923cd2e82c3665e1f0289b34fe9ae90e8d
+Author: c.hofmann@utwente.nl
+Date:   Wed Nov 26 22:43:36 CET 2008
+  * Started to Implement Analysis Repository Management
+  chr: - added code that prepares the repository by adding
+         projects that should be analyzed
+
+patch 1c9a0725efd052eea6642ffc58e25443369aa2ee
+Author: c.hofmann@utwente.nl
+Date:   Wed Nov 26 10:25:55 CET 2008
+  * Finished Symbolic Expression Conversion
+  chr: - finished the change in the symbolic expression conversion
+         using imperative style StringBuffer.append() operations
+       - run all tests until beta 1.1, but the correctness of the 
+         SExpression convers still needs confirmation through cl-jada
+
+patch 2bd955b218660b7d8dab630f8b06ff0ba47ce25d
+Author: c.hofmann@utwente.nl
+Date:   Thu Nov 13 21:11:54 CET 2008
+  * Re-Introduced Stand-Alone Analyzer Application, Speed Improvements
+  chr: - re-introduced the Jada stand-alone application to analyze 
+         classes using the command-line interface
+       - improved the speed of Jimple to Symbolic Expression conversion
+         by implementing an imperative interface for toSExpression that
+         allows to pass a StringBuffer object to which the symbolic
+         expression is added
+       - Warning! Changes are largely untested.
+
+patch 36a49ddff49c4852559687682abeca65c6017af2
+Author: c.hofmann@utwente.nl
+Date:   Wed Oct 15 14:33:58 CEST 2008
+  tagged Beta 3
+
+patch c9a16805df303a55a7aeaf3fba75f061f384e551
+Author: c.hofmann@utwente.nl
+Date:   Wed Oct 15 14:23:51 CEST 2008
+  * Optimization + Bugfixes
+  chr: - fixed Bug where the log-level of the logger named "Jada" was
+         not set. This could lead to a null-pointer exception, when the 
+         log-level was checked.
+       - Logger names are now set via static fields in JJavaRepository,
+         Fee, ServerStatusModel, and StarDustCLI.
+       - Improved performance of AssociationList read, StarDust output filename
+         creation, unnecessary garbage collects.
+       - Improved performance by looking up names in the dictionaries maps.
+         However, this goes at the cost of memory consumptions as the maps
+         cannot be deleted after sorting them.
+
+patch b3f168848811bc6a8beba06368eec56d360a4a52
+Author: c.hofmann@utwente.nl
+Date:   Wed Oct 15 10:56:46 CEST 2008
+  * Added Local Analyzer
+  chr: - added to FeeStarDustServer a local StarDust instance
+         that can be used to analyze a class if no remote StarDust
+         server is registered yet.
+       - added two benchmarks to StarDustCLI 
+         (java.lang.Class, java.lang.Cloneable) to test the performance
+         for large and small class files
+       - profiled the application and:
+         - optimized debug-logging in JJavaSootJimpleClosure
+         - replaced recursive directory traversals in JJavaClasspath
+           with an optimized iterative version
+
+patch c50fcf3aa7b806ffb07da3dbce1ae2ed177e33f7
+Author: c.hofmann@utwente.nl
+Date:   Tue Oct 14 13:04:03 CEST 2008
+  * Distributed Fee
+  chr: - Fee is now an RMI-server that allows to use several
+         distributed analyzers.
+       - Analyzers (StarDust) can be distributed using RMI or
+         run as stand-alone applications
+       - The Foil server and all other servers are now implemented
+         as threads of their own.
+       - Recovering from failing connections is implemented,
+         but only possible when an analyzer is idle.
+         Otherwise the analysis is aborted.
+       - The repository directory can no longer be set
+         remotely. Instead each server can use a different repository 
+         directory. To share a repository existing solutions like NFS have
+         to be used.
+
+patch 663d05d87059453264cb31e66ff213cabf7826aa
+Author: c.hofmann@utwente.nl
+Date:   Wed Oct  8 23:02:16 CEST 2008
+  * Added GUI, Soot Decompiler, new CLI
+  chr: - split command line interface into CLI, Server, Analyzer,
+         and (optional) GUI
+       - added GUI to manage the Foil server 
+       - started to implement an analysis server and
+         worker clients
+       - removed the singleton implementation of JJavaBcelRepository
+
+patch 562d5a8caa2c26e914a7e4fe60fad15666bcb1ff
+Author: c.hofmann@utwente.nl
+Date:   Wed Sep 24 22:47:47 CEST 2008
+  tagged Beta 2
+
+patch fa2803aace09d0a13cb7a3dd722ebabd9614357b
+Author: c.hofmann@utwente.nl
+Date:   Wed Sep 24 22:28:28 CEST 2008
+  * Major Bug-Fixes in Repository Management
+  chr: - the singleton pattern implementation of JJavaSignature and
+         JJavaSootType that memoizes already created instances was out
+         of sync with JJavaRepository's JJavaDictionary
+       - instances of JJavaSignature are now only created through the
+         memoizing constructor signatureFor
+       - renamed the Analyzer to Saft (SyntacticAnalysisFronTend)
+       - added support for Foil, a foreign object interface for CL
+       - major overhaul of the design
+           - class name loading is now split into two cases:
+             with or without filename
+           - the CLI functionality has been completely separated from class
+             loading
+           - only one public analyze(classname) interface is used, 
+             by externally and internally by the CLI
+       - file output now uses getCanonicalPath() to prevent problems
+         with pathnames like "."
+       - added O(1) removal of elements to the association list at the
+         cost of an additional HashMap
+       - adding elements to an association list now behaves correctly 
+         and replaces elements with the same key.
+       - added comparison of Pairs
+       - fixed output of additional superfluous whitespace characters
+         in -terse mode
+       - removed unused class JJavaSootRepository, which was not finished
+         due to the use of BCEL to analyze the structure of classes
+
+patch 02c00cb980e11e2a669a7b8b087765f54517329f
+Author: c.hofmann@utwente.nl
+Date:   Mon Sep 22 22:32:30 CEST 2008
+  * Splitted Jada into a command line interface and the analyzer
+  chr: - splitted Jada into a command line interface and a
+         public interface for the analyzer
+
+patch 8e3635f6cf7e6b4084f5c2759365a7bf3f94aa12
+Author: c.hofmann@utwente.nl
+Date:   Sat Sep 20 00:26:56 CEST 2008
+  * Bugfixes + Buildfile
+  
+  chr: - added an ANT build-file to create a release as independent .jar file
+       - fixed dictionary and AssociationList loading
+       - fixed command line arguments
+  
+
+patch accac3c1f2ce3d2230c367373e4c9f1b5d695a2b
+Author: c.hofmann@utwente.nl
+Date:   Wed Sep 17 23:32:51 CEST 2008
+  * Added Command Line Options and Class Name Repository
+  chr: - added command line options to Jada that allow to specify the output 
+         format
+       - added a class-name repository that maps class-names to 
+         qualified file-names of the analysis results
+       - implemented the class-name repository as an association list
+       - fixed bugs in the terse representation, where method-names and
+         qualifier names were not looked up in the dictionary
+       - added line-breaks to the SExpression output
+
+patch 3fc647d3fd74424e34d7670b1410be289f82bd4a
+Author: c.hofmann@utwente.nl
+Date:   Sat Sep  6 23:58:03 CEST 2008
+  * Added Qualified Names to Dictionary
+  chr: - added a JadaDictionary for qualified names
+       - modified JJavaSignature accordingly
+       - added a BasicType Signature that does not create entries
+         in the Dictionary as Basic types are converted to Symbols
+         in the Symbolic Expression conversion
+
+patch 15b411847e282dc9b4215e862b9e08cd2605c98a
+Author: c.hofmann@utwente.nl
+Date:   Sat Sep  6 00:01:09 CEST 2008
+  * Added Dictionary for Field, Method, and Local Variable Names
+  chr: - added dictionary for field, method and local variable names
+       - adapted jimple reference instructions and the jimple 
+         local variable declaration accordingly
+       - the repository can now be converted to a Symbolic Expression as well
+       - the repository has the responsibility that dictionaries and
+         the class path are converted (i.e. all analysis global information)
+       - class-path to Symbolic Expression Conversion is now done
+         by the repository
+       - moved the string normalization into the class JadaString that
+         was created to deal with sorting of dictionary entries by their 
+         frequency of occurence
+       - added a separate jada.util package
+
+patch c7126a00c66257a24fcb239f5fea864264fb82bd
+Author: c.hofmann@utwente.nl
+Date:   Wed Sep  3 20:07:45 CEST 2008
+  * Added Annotation Support for Fields and Methods
+  chr: - added a test for annotated .class files
+       - modified script that generates examples,
+         now classes from the Java 1.5 library are tested as well
+       - fixed free memory calculation
+       - fixed and extended Beta one test (now tests BigInteger and BigDecimal)
+       - fixed printing of Strings in JJavaAnnotation and JJavaBcelStringConstant
+       - removed fields unqualified-name and filename from JJavaSignature
+         the values are calculated on demand from the qualified-name
+       - changed JJavaSignature SymbolicExpression conversion
+         to export only the qualified name
+       - added annotations to method declaration, implementation and fields
+
+patch 01645a95ad62e9b56f6e8fabd76ae46c2bd86296
+Author: c.hofmann@utwente.nl
+Date:   Wed Sep  3 00:29:23 CEST 2008
+  * Added Logging and Support for Java 1.5 Annotations
+  chr: - program diagnostic messages are now handled through log4j
+       - added support for Java annotation types
+       - added support for class annotations
+       - ToDo: annotations for methods and fields
+
+patch dcbadc3b8f09fc54b07e51de7e1794e7db52c9c4
+Author: c.hofmann@utwente.nl
+Date:   Fri Aug 29 10:56:14 CEST 2008
+  tagged Beta 1
+
+patch 2bd70bc0dd82f5073948667e5501347337b2b397
+Author: c.hofmann@utwente.nl
+Date:   Fri Aug 29 10:54:35 CEST 2008
+  * Beta 1
+  chr: - added a Beta One Test (Float, Double and Complex Numbers)
+       - fixed Bug in SymbolicExpression conversion of Floating point numbers
+
+patch acf3c41b6a548ee834c571754f76c0124dd54690
+Author: c.hofmann@utwente.nl
+Date:   Fri Aug 29 00:27:31 CEST 2008
+  * Pre-Beta 1
+  chr: - almost reached beta-1 status
+       - implements relation is now correctly converted to SymbolicExpressions
+         (each direct super-interface in its own list)
+       - the inheritance relationship's super-class chain is now converted to
+         the empty list if no super-class is defined (instead of (NIL))
+       - added the method-modifier volatile (see: java.lang.Double)
+       - class modifiers can only be assigned the flag abstract, if the
+         classifier is not an interface. Interfaces are per default abstract.
+       - The default target of switch statements is now added to the list
+         of branch targets in a JimpleClosure
+
+patch 00a50c1086d2b9883392c5ffbd936273d0e438d9
+Author: c.hofmann@utwente.nl
+Date:   Wed Aug 27 21:41:54 CEST 2008
+  * Bugfixes - FieldModifiers, Method Invocation, Generalization Relation
+  chr: - modified the unit-tests. A successful test-result or test-failure is
+         now reported on System.err
+       - Fixed Bug in the Metamodel. Added the modifiers final for classes, 
+         methods, and fields; enum for fields, and abstract for methods.
+       - Fixed major Bug in Invocation statements. All Invocation statements
+         have now a field receiverClass that denotes the receiver of a method
+         call.
+       - the super-class chain returned by Bcel for inheritance- and implements-
+         relations is now correctly converted to an SExpression as a list of
+         lists
+
+patch f1ad54b908b9caf8518b6c9ea224ad9548bff129
+Author: c.hofmann@utwente.nl
+Date:   Tue Aug 26 23:23:30 CEST 2008
+  * Added thrown-exception to method declaration
+  chr: - both Java method-declaration and method-implementation
+         now have a field thrown exceptions.
+       - thrown exceptions are stored as java object types
+
+patch 34729e20f1dfb867fb0a596233220f69852d8dc3
+Author: c.hofmann@utwente.nl
+Date:   Sun Aug 24 22:52:28 CEST 2008
+  * Fixed Bug in Symbolic Expression Conversion
+  chr: - lookupswitch statements and tableswitch statements
+         were not correctly converted to symbolic expressions
+
+patch 260e00e18d78e8943ce623b9b5f97278bcac7b67
+Author: c.hofmann@utwente.nl
+Date:   Sat Aug 23 23:55:27 CEST 2008
+  * Bugfix Symbolic Expression Conversion
+  chr: - soot.jimple.internal.JNewMultiArray instructions were not
+         correctly converted to JJavaSootJimpleNewArrayExpr
+       - now the correct base type of an array is determined via
+         getBaseType().baseType
+
+patch 75cb017d07581bced1e680ee0acc698b5797dd70
+Author: c.hofmann@utwente.nl
+Date:   Fri Aug 22 23:47:25 CEST 2008
+  * Floating-Point-Value Export and Branch Targets
+  chr: - fixed problem with exporting floating point values as 
+         Symbolic Expressions
+           - values -Infinity +Infinity NaN and floating point
+             values out of range for CommonLisp implementations,
+             are now exported as Strings
+           - only Float values are exported as float numbers
+      - added branch-targets to Jimple-Closure (ToDo: add to JadaClosure)
+           - the branch-targets of branch-instructions and traps are
+             now added to a sorted set of branch-targets within a closure
+      - added a script for starting the Alpha 5 test
+      - modified the script for exporting examples. It includes now
+        classes from Java's run-time library (rt.jar - java.lang.Float,
+        java.lang.Double, java.awt.Component)
+         - the classes Double and Float were added to test the new 
+           symbolic expression conversion for floating point values
+
+patch dd354f4a5c3766bcee70edbf06a195377216fae5
+Author: c.hofmann@utwente.nl
+Date:   Tue Aug 12 22:22:40 CEST 2008
+  tagged Alpha 6
+
+patch 693d02c8c1ff114d4ab25feef5ff0186ee69d472
+Author: c.hofmann@utwente.nl
+Date:   Tue Aug 12 22:02:23 CEST 2008
+  * Major Bug-Fixes + Implementation of Missing Types
+  chr: - added a "real-world" alpha 5 test using classes from
+         the Java 1.5 library
+       - added various scripts to ease testing of cl-jada
+       - added distinction into native methods and methods in Classifier
+           - native methods are also treated as method-declarations
+           - all other methods as implementations
+       - fixed symbolic expression conversion for JJavaBcelMethodDeclaration
+       - fixed Bug in JJavaBcelArrayType
+           - this.name is now initialized in the constructor with the element
+             type's name. This causes the type to print correctly, as
+             otherwise toString() would be called twice (once when initializing
+             the null this.name field and once when printing).
+             This causes the array dimension to double (this.name String + [] 
+             during initialization, + [] again, during printing).
+       - fixed Bug in JJavaSootArrayType
+           - same Bug as in JJavaBcelArrayType
+           - additionally replaced getArrayElementType(), which does not return
+             the base type of the array, but an ArrayType with dimension - 1.
+           - uses now direct access to the fields of soot.ArrayType
+       - fixed Bug in JJavaSootJimpleArithmeticInstructions
+           - comparison instructions, like cmp were not recognized
+           - added the forgotten comparison instruction to produce()
+             and implemented produce() for JJavaSootComparisonInstruction
+       - added an imaginary boolean type
+       - modified the null type
+       - fixed Bug in JJavaSootStringConstant that caused Unicode Strings to
+         be printed without quoting
+           - is now properly quoted and printed as a CommonLisp compatible
+             String literal
+       - added new boolean- and null-type to the produce() method in JJavaSootType
+
+patch 1986a93f96d4cf35304f2ade86eb9f16559299da
+Author: c.hofmann@utwente.nl
+Date:   Mon Aug 11 23:03:16 CEST 2008
+  * Improved Pretty Printer
+  chr: - improved the lisp file pretty-printer
+          - now takes also the input file as only argument and saves the
+            output file by adding "-pp" to the input-file name 
+            to indicate that its pretty printed
+      - Fixed Bug: Java's inheritance relation is called java-extends in
+          cl-jada's meta-model
+
+patch 7c11271b5df9b3682a6a595da6229e1d92345bfa
+Author: c.hofmann@utwente.nl
+Date:   Mon Aug 11 22:11:10 CEST 2008
+  tagged Alpha 5
+
+patch 5164f06001cae3eedd3b70a718c759ef91e18c17
+Author: c.hofmann@utwente.nl
+Date:   Mon Aug 11 22:07:54 CEST 2008
+  * Alpha 5
+  chr: - modified symbolic expression conversion according to the 
+         jimple metamodel implemented in cl-jada
+          - changed: arithmetic instructions, control transfer, object creation,
+                     synchronization, simple instructions
+       - enhanced the inheritance example to demonstrate the effects of inheriting
+         static methods and calling methods in the class and super class
+        
+
+patch fde826bdf1c19ec6c6096cf88db3cdb2e5debefb
+Author: c.hofmann@utwente.nl
+Date:   Fri Aug  8 22:58:59 CEST 2008
+  * Added More Tests and Examples
+  chr: - added shell files for invocation from the command line
+       - added examples from the model-checking domain (Stanford University)
+       - re-joined the jadaSootInterface project, because testing
+         what jimple code is produced for the examples, is important
+         to guarantee the correctness of the transformation into
+         symbolic expressions
+       - extended the arithmetic example with local variables of all integer
+         and floating point types
+       - added an example for inheritance, both extends and implements 
+       - modified the JJavaClasspath, such that the default classpath
+         can be returned as a classpath string
+       - all sub-directories of the jvm/lib folder are now searched for
+         .jar files to compensate for the incomplete rt.jar in IBM's JVM 
+         implementations for Linux 
+       - adjusted symbolic-expression names for the representation of
+         values in the Java metamodel
+       - JJavaSootBcel field declaration no longer exports the constant value,
+         this should now be initialized by cl-jada according to the 
+         JVM specification
+       - added alpha 4 test for the inheritance examples
+       - modified the alpha-tests such, that they inherit from each other
+
+patch 973b8dceea1970899a14c89194a49afe22b2e669
+Author: c.hofmann@utwente.nl
+Date:   Thu Aug  7 23:01:50 CEST 2008
+  * Fixed Symbolic Expression Conversion
+  chr: - fixed symbolic expression conversion in JJavaBcelFieldDeclaration
+       - fixed cl-jada metamodel-element names
+
+patch f87c063c635b07362021a7130ba7aa5c7578e73c
+Author: c.hofmann@utwente.nl
+Date:   Wed Aug  6 14:52:58 CEST 2008
+  * Adapting towards CL-Jada Metamodel
+  chr: - renamed *Modifier* -> *Modifiers* as classes, fields or methods can have multiple modifiers
+       - modified the output of toSExpression of several classes in the Java metamodel such, that the 
+         names of the metamodel-elements match their counterpart in the CL-Jada metamodel
+       - fixed a Bug in the SExpression conversion of JJavaObjectType, now the signature's SExpression
+         representation is printed instead of just the qualified name
+
+patch 5e5e8fdc67096b86d722507dbbf354c590f3562c
+Author: c.hofmann@utwente.nl
+Date:   Tue Aug  5 12:49:41 CEST 2008
+  * Fixed Bug in Symbolic Expression Conversion
+  chr: - fixed conversion of trap instructions to symbolic expressions
+
+patch b1c02377ae2170da477139a8a2c927b1bc8fdfbc
+Author: c.hofmann@utwente.nl
+Date:   Mon Aug  4 21:37:40 CEST 2008
+  * Added Benchmarks and Pretty Printing Code
+  chr: - added lisp-code to pretty print the lisp files generated
+         by the analysis (CL)
+       - added benchmarking code to the AlphaThreeTest
+
+patch 3fc8623c2669484f2ba86bb2f028de68bb13119a
+Author: c.hofmann@utwente.nl
+Date:   Mon Aug  4 16:39:30 CEST 2008
+  * Simplified Metamodel
+  chr: - the implementation of the java metamodel 
+         did not correctly distinguish local variables from fields
+       - renamed JJavaVariableDeclaration into JJavaFieldDeclaration,
+         JJavaBcelVariableDeclaration into JJavaBcelFieldDeclaration,
+         JJavaSootJimpleVariableDeclaration into 
+         JJavaSootJimpleLocalVariableDeclaration
+       - added the missing SExpression interface
+       - removed superfluous meta-model elements JJavaLanguageElement,
+         JJavaArguments, JJavaNestedClassSignature
+       - produce of JJavaBcelClassifier takes now as additional argument
+         the repository of type JJavaBcelRepository
+
+patch 5c99950587e2cef8dc8b50131796d627671cc5c0
+Author: c.hofmann@utwente.nl
+Date:   Sat Aug  2 00:04:55 CEST 2008
+  * Alpha 3
+  chr: - added tests for special cases like nested enums and
+         field declarations in interfaces
+       - added a primordial command line interface to the 
+         analyzer that outputs the symbolic expression into a .lisp file
+       - added file -> class-signature conversion
+       - fixed the conversion to symbolic expressions
+         - added list statements in front of lists
+         - added string quotes to identifiers and names
+         - added quoted lists for symbols like modifier names
+       - added a SExpression interface
+         - modified JNamed element such, that it can print lists of SExpressions
+           or set of SExpressions into the coressponding (list ...) expression.  
+
+patch 3eccbc2a5181f8ea5f286f61c04ec9561746da7f
+Author: c.hofmann@utwente.nl
+Date:   Thu Jul 31 22:12:41 CEST 2008
+  * Alpha 2
+  chr: - added example classes again and put up an alpha 2 version test
+       - all classes are parsed without exception
+       - fixed Signature's binary name and filename conversion
+       - added null type and refactored toSExpression code of other constant types
+       - added a soot null value
+       - added a method that prints array types in java notation
+       - fixed produce() method of JJavaSootReferenceValue
+       - minor issue - fixed whitespaces in toSExpression conversion
+
+patch fd193ed339ef7d9cc5c8e6db85d271d08453c88a
+Author: c.hofmann@utwente.nl
+Date:   Wed Jul 30 23:59:59 CEST 2008
+  tagged Alpha 1
+
+patch 90fb20cf17eebec53377406cb6efd87c79f7f195
+Author: c.hofmann@utwente.nl
+Date:   Wed Jul 30 23:54:06 CEST 2008
+  * Alpha 1 
+    Summary: analyzes InnerClassExample without raising exceptions
+    
+    chr: - implemented void type and parameter reference instruction
+         - implemented assignment instructions
+         - refactored invocation instructions to be kind of global control-flow
+           instructions
+         - fixed several bugs related to recursion in modelsJimpleUnit() like
+           methods
+         - fixed recursion bug when converting a method's owner class to 
+           a Symbolic Expression
+         - fixed shaded attributes in the JValue class hierarchy
+         - fixed unitialized localVariables field in JJavaSootClosure
+         - fixed unitialized parentPackage field in JJavaClassifier
+           (call parentPackage() method to get the value of the field)
+         - some more bug-fixes
+
+patch c4dd61f280e9f35866f03b087988db4e37427d02
+Author: c.hofmann@utwente.nl
+Date:   Tue Jul 29 23:07:29 CEST 2008
+  * Major step towards completion of Symbolic Expression conversion
+  chr: - fixed Bug in JJavaNestedClassSignature that prevented 
+         nested class names from being handled correctly
+       - JJavaSootBody became JJavaSootClosure
+       - fixed and finished implementation of inheritance relationships
+       - moved predicates to arithmetic instructions
+       - refactored control-transfer into global 
+         and local control transfer instructions
+       - merged sub-package jimple.instructions.object with jimple.instructions
+       - refactored single- and multiple-argument arithmetic instructions 
+         into arithmetic instructions with an arbitrary number of arguments
+       - added Symbolic Expression conversion to several classes
+         (ToDo: Enumeration, Interface)
+       - added specific instances of Signature, 
+         and Inheritance relationships for BCEL classes
+  
+  ToDo: assignment instructions
+  
+  
+
+patch 16e147333842504faf1d4ed33480ee885aea2ad2
+Author: c.hofmann@utwente.nl
+Date:   Tue Jul 29 07:28:23 CEST 2008
+  * Added Comparison and Exception Handling Instructions
+  chr: - added comparison instructions
+       - added exception handler instruction
+       ToDo: - semantics of cmpg and cmpl
+             - creation of exception handler instructions 
+               for a method from its trap-chain
+     	   - semantics of breakpoint instruction        
+
+patch cfda114219f74ba9e0bba5b720456b1bdcca5b1d
+Author: c.hofmann@utwente.nl
+Date:   Sun Jul 27 23:04:09 CEST 2008
+  * Added Imaginary Instructions
+  chr: - added Jimple imaginary instructions
+       - implemented nop instruction
+
+patch 5bb9ceeec89fd08867db070af59723930fd9326a
+Author: c.hofmann@utwente.nl
+Date:   Sat Jul 26 21:54:16 CEST 2008
+  * Added Arithmetic and Arithmetic-Logic instructions
+  chr: - added arithmetic instructions with single and multiple arguments
+         (multiple means actually two arguments, I should maybe think of a better 
+          name or generalize it using lists of values)
+       - added arithmetic-logic instructions, meaning boolean logic
+
+patch 104cac410218fd388a3954dcf2589c2fa87d7206
+Author: c.hofmann@utwente.nl
+Date:   Fri Jul 25 21:28:42 CEST 2008
+  * Continued Jimple Instruction Implementation
+  chr: - added Java's conditional critical section instructions
+       - added instructions for Java's switch statement
+       - added arithmetic negation instruction
+       - added instructions on objects (length, instanceof, cast)
+       - started implementation of instructions for exception handling
+       - modified instructions where operands can be local variables
+         or constants (the operands are now correctly of type JJavaSootValue)
+        
+
+patch 158f15fb8957516482cdf023468c80ab4ed922a7
+Author: c.hofmann@utwente.nl
+Date:   Thu Jul 24 22:38:12 CEST 2008
+  * Instructions Control Transfer
+  chr: - started to add Jimple control transfer instructions
+       - completed method invocation
+       - modified instruction factories according to the following pattern:
+         for all known instruction types
+         check if object is a statement or expression
+         check if statement or expression is modeled by the current class
+         if yes, it casts itself to the correct type
+         return this newly created instance
+
+patch 8cc2133daf5bdf3bc16e250ea25739799b23b071
+Author: c.hofmann@utwente.nl
+Date:   Thu Jul 24 09:27:44 CEST 2008
+  * Started to implement Jimple Instructions
+  chr: Interim Version!
+       - Started to work on jimple instructions.
+       - Especially assignment is not complete yet
+       ToDo: - make sure that the appropriate factories are used when
+               the instructions are created, because they may use values
+               and instructions as arguments 
+
+patch c271c37aaf6fd1b530d6504d87f1b63f9d8b0d7a
+Author: c.hofmann@utwente.nl
+Date:   Wed Jul 23 09:29:55 CEST 2008
+  * Major Changes, Started Soot Support
+  chr: - splitted language intermediate representation and
+         language elements
+       - intermediate representation is analyzed using Soot
+       - structure of language elements is analyzed using BCEL
+       - removed support for BCEL bytecode as intermediate representation
+       - started to implement JIMPLE intermediate language related parts
+         of the Java-language meta-model
+       - added new instruction types to the language independent metamodel
+       - split documentation into design and implementation
+       ToDo: fix the inheritance hierarchy and generalize analyzer framework 
+             specific changes to the meta-model and add them to the Java-language
+     	   meta-model
+
+patch d36dc18ff2740b2aefe520fad57d67724b7113e4
+Author: c.hofmann@utwente.nl
+Date:   Mon Jun  2 12:59:17 CEST 2008
+  * Removed Graph Remnants
+  chr: - removed classes and packages that implemented stubs for data-flow and
+         control-flow graphs 
+
+patch dd6c23e6f264eeed7f8c1dc8c0cd7b87f0e90cd1
+Author: c.hofmann@utwente.nl
+Date:   Tue May 27 15:03:57 CEST 2008
+  * removed examples
+  chr: - moved the race condition examples to a separate project
+       - added documentation for the meta-model
+
+patch 0e39b849be003da279afed6f69d490ec5adca8f0
+Author: c.hofmann@utwente.nl
+Date:   Tue Apr  8 15:45:27 CEST 2008
+  * Added Java Enumeration Types
+  chr: - added support for Java enumeration types
+       - extended the Java metamodel accordingly
+       - ToDo: document the changes in the metamodel
+
+patch f019d3925c01974f5ea59a09b8f8797d4a0ef409
+Author: c.hofmann@utwente.nl
+Date:   Tue Apr  8 14:20:33 CEST 2008
+  * Implemented Nested Class Handling
+  chr: - implemented nested class handling  
+
+patch bcbb3c06d883c3e66c1f14a390203c8c44d9d8de
+Author: c.hofmann@utwente.nl
+Date:   Mon Apr  7 15:46:14 CEST 2008
+  * Added Java Values and Implemented Attributes 
+  chr: - attribute declarations in a Java class are now 
+         handled
+       - added the required meta-classes that are used to
+         represent values
+       - added support for inner classes which is currently broken
+         for BCEL (it will lead to infinite looping)
+       - still need to factor out the meta-classes that represent values
+         for the generic Java language model. They are now implemented
+         only for the BCEL front-end
+
+patch 41f7b30711a9349db219d706099af61c8eb82208
+Author: c.hofmann@utwente.nl
+Date:   Fri Apr  4 16:19:34 CEST 2008
+  * Started implementation of Values
+  chr: - started to implement value types, which are part of the java typesystem
+         (may be moved to typesystem.values in the near future)
+       - modified the meta-model accordingly and updated it to 
+         reflect recent changes to its implementation
+
+patch e84994d7e4b538ff47c6c3daec024e2ad42d02c9
+Author: c.hofmann@utwente.nl
+Date:   Thu Apr  3 09:54:56 CEST 2008
+  * Introduced Signatures as first class entity
+  chr: - introduced signatures as first class entities in the java
+         specific language metamodel
+
+patch f0e4797aef6d10727dd0fd2fa2217d8eda80799a
+Author: c.hofmann@utwente.nl
+Date:   Wed Apr  2 16:34:42 CEST 2008
+  * Child Package Loading
+  chr: - implemented lazy loading of child packages for JJavaPackage 
+
+patch 0bbd9405c60fb5c8300971e0dcfd0198a4b550ea
+Author: c.hofmann@utwente.nl
+Date:   Tue Apr  1 16:15:18 CEST 2008
+  * Added Repository Functionality
+  chr: - added functionality for loading files to JJavaClasspath and
+         its BCEL specific subclass.
+       - modified the repository classes accordingly
+
+patch 7567a2abb49ce5ccdcdb7838b5731088730de14c
+Author: c.hofmann@utwente.nl
+Date:   Mon Mar 31 17:17:48 CEST 2008
+  * Added Java classpath to metamodel
+
+patch 599a2b7d099f29b58c3cc968962d94e8ea03ffe6
+Author: c.hofmann@utwente.nl
+Date:   Thu Mar 27 11:17:17 CET 2008
+  * Implemented MethodDeclaration part of the Metamodel
+  chr: - corrected the modifier parts of the java metamodel
+       - corrected the java typesystem implementation for BCEL
+       - finished the metod declaration part for BCEL  
+
+patch f351ac53d6ada30fbb78525b85ad10f1111a1c96
+Author: c.hofmann@utwente.nl
+Date:   Wed Mar 26 16:51:07 CET 2008
+  * Refactored Java Typesystem Code
+  chr: - added all datatypes defined so far to the java typesystem
+       - the bcel frontend typesystem now only contains code for creating
+         instances
+       - moved the code for selection of the right factory method into class
+         JJavaBcelType
+
+patch 5b1f0251aa48536d2f87ffa54423be6eaa4b8e67
+Author: c.hofmann@utwente.nl
+Date:   Tue Mar 25 16:34:40 CET 2008
+  * Modified Type System
+
+patch 3ae9799e80dadd1177b0706745aee5299781bae3
+Author: c.hofmann@utwente.nl
+Date:   Wed Mar 19 16:34:56 CET 2008
+  * Added Java Typesystem Specifics for the BCEL Frontend Part
+  chr: - separated the typesystem also for the BCEL frontend part of the analyzer
+       - added a java language specific repository 
+
+patch 7627524e79cd6c0847c1e74d1d4504abb344a2db
+Author: c.hofmann@utwente.nl
+Date:   Wed Mar 19 11:16:22 CET 2008
+  * Separated Typesystem
+  chr: - separated the typesystem from the analysis meta-model
+
+patch 51407775ae263b964c6e2113c9aecde28f8b5e84
+Author: c.hofmann@utwente.nl
+Date:   Wed Mar 19 11:06:59 CET 2008
+  * Major changes to the Metamodel
+  chr: - separated language meta-model from the analysis-meta-model
+       - JReferenceType is now separated into type and type declaration
+       - JRoutine became JRoutineImplementation
+
+patch 1674de2f64c738bae1e7fe7c86e916bd198a9825
+Author: c.hofmann@utwente.nl
+Date:   Tue Mar 18 22:42:19 CET 2008
+  * Extended the Metamodel (again)
+  chr: - added Type, Interface, etc. at the BCEL side
+       - renamed JJavaMethod into JJavaMethod declaration which is more
+         conform to the metamodel
+       - realized that ObjectType, ArrayType etc. have to be distinguished
+         as well in the Java metamodel 
+
+patch a42072f84c1e0ab75b3f6c6378717476f16696a8
+Author: c.hofmann@utwente.nl
+Date:   Tue Mar 18 16:04:53 CET 2008
+  * Improved Metamodel and Continued Implementation
+  chr: - started to work on the front-end specific parts of the meta-model (BCEL)
+       - added enumeration type, field and method modifiers to the meta-model
+       - added documentation to the metamodel 
+       - documented some more classes in the implementation
+
+patch 5877459695f46adafe824b283a2d84deb7b787a9
+Author: c.hofmann@utwente.nl
+Date:   Mon Mar 17 17:12:08 CET 2008
+  * Added documentation, and modified the meta-model again
+
+patch abd4d2a2a8d8ccad19b8befc016661fabf619b20
+Author: c.hofmann@utwente.nl
+Date:   Thu Mar 13 12:48:11 CET 2008
+  * Added instruction related elements to the metamodel
+
+patch 88551d30d007c02f11f26bd0fd68ce3e6d81df13
+Author: c.hofmann@utwente.nl
+Date:   Wed Mar 12 23:03:04 CET 2008
+  * Extended Meta-Model
+  chr: - tried to standardize the terminology to the one used in different
+         programming languages
+       - corrected the meta-model based on the insight that functions declaration
+         creates a closure
+       - added flow graph elements
+
+patch f9ff76b8929e9200383dec1e1567778c278712db
+Author: c.hofmann@utwente.nl
+Date:   Wed Mar 12 12:44:05 CET 2008
+  * Modified the meta-model
+  chr: - the meta-model distinguishes now between a language model
+         and implementations of it
+       - the language model is modeled after TAAL 
+         (see: Kastenberg, Kleppe, Rensink - 
+               "Defining Object-Oriented Execution Semantics Using 
+  	      Graph Transformations", FMOODS 2006, LNCS 4037.)
+
+patch e0b2798c4a9d63546c9aa29863678612f5a9a45f
+Author: c.hofmann@utwente.nl
+Date:   Tue Mar 11 22:16:02 CET 2008
+  * Extended the Metamodel
+  chr: - extended the metamodel along the lines described in: 
+         Han, Kniesel, Cremers - Towards Visual AspectJ by a 
+                                 Meta Model and Modeling Notation
+
+patch dc2193a821e9951d800f9fb4a01a97387295800a
+Author: c.hofmann@utwente.nl
+Date:   Mon Mar 10 22:42:46 CET 2008
+  * Started implementing a Java Meta-Model
+  chr: - it is still unclear how the supertype of interface and class
+         should be named and what its role in the meta-model should be
+       - it is not clear whether interfaces are really needed as sub-entities
+         of package
+
+patch 4d82a23287fac5f0e7b864cbf5d0ca1f250b5c9d
+Author: c.hofmann@utwente.nl
+Date:   Mon Mar 10 12:23:21 CET 2008
+  * JADA initial import
+  chr: - added concurrency examples
