@@ -1,37 +1,32 @@
-css: style.css
-
-Jana -- Java Analysis Framework
-===============================
+Jana -- A Java Analysis Framework
+=================================
 
 What is Jana?
 -------------
 
 Jana is a framework for analyzing Java programs.
-We use this framework for finding bugs due to missing 
+This framework can be used for finding bugs due to missing 
 synchronization in concurrent Java programs.
 
-Our analysis can detect  if you consistently 
+The analysis can detect if you consistently 
 use the `synchronized` statement in your application 
 to prevent inconsistent states of your objects.
 This allows you to detect faults like data-races that are hard to
-detect through e.g. unit-testing with JUnit.
+detect through other means, like unit-testing with JUnit.
 
 Usually these faults lead to bugs that occur randomly 
-when the program is run on a different machine than yours, 
-for example, a computer with a multi-core CPU 
-at the customer's site.
-
+when the program is run on a multicore CPU.
 
 Jana consists of three parts: 
  * the front-end extension FEE, 
- * the analysis and transformation framework CL-JANA, 
+ * the static analysis and transformation framework CL-JANA, 
  * and a run-time verification framework called RTV.
 
 What Results can I Expect?
 --------------------------
 
 The output of running your instrumented application with the runtime monitor RTV
-will look like this example of analyzing the [Hibernate Framework]:
+will look like this example of analyzing the [Hibernate Framework] (0.9.10 Beta):
 
 	rtv.lockset.monitor.ConservativeMonitor
 
@@ -141,9 +136,9 @@ Example
 To run the example provided with JANA, run the following commands on a POSIX compliant
 shell:
 
-    $ sh analyze.sh fee-examples
-    $ sh transform-classes.sh fee-examples
-    $ sh compile.sh fee-examples 
+    $ sh analyze.sh fee-examples test-repository
+    $ sh transform-classes.sh fee-examples test-repository
+    $ sh compile.sh fee-examples test-repository
     $ sh run-instrumented-app.sh fee-examples test-repository \
     $ example.jana.classes.ArrayExample
 {:shell}    
@@ -151,8 +146,7 @@ shell:
 Requirements {#requirements}
 ------------
 
-Jana requires 1 GByte of Memory and a sufficiently recent CPU with 
-at least 1GHz if you don't want to wait too long.
+Jana requires min. 1 GByte of Memory. 
 Less memory may work too, but it requires editing the shell 
 scripts accordingly.
 
