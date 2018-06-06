@@ -58,6 +58,14 @@ This actually means, Jana could not find evidence that your program needs additi
 synchronization to work correctly.
 That includes the case, where your application uses only one thread.
 
+## Building Jana
+
+Building Jana requires min. a Java 1.6 JDK and the [Ant] build tool.
+
+```shell
+$ ant CleanAll
+$ ant
+```
 
 ## Usage
 
@@ -174,3 +182,4 @@ Jana has been successfully tested with the following configuration:
 [CCL]: http://trac.clozure.com/ccl
 [LispWorks]: http://www.lispworks.com
 [Hibernate Framework]: http://www.hibernate.org
+[Ant]: http://ant.apache.org

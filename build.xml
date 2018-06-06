@@ -1,0 +1,139 @@
+<?xml version="1.0"?>
+
+<project default="BinRelease" name="JaDA Build File">
+    <property file="ant.settings"/>
+	<property name="build.maxmem" value= "1024M"/>
+	<property name="build.dir.classes" value="classes"/>
+	<property name="build.dir.src" value="src"/>
+	<property name="build.dir.javadoc" value="javadoc"/>
+	<property name="jada.dir.lib" value="lib"/>
+	<property name="jada.dir.lib.custom" value="${jada.dir.lib}/custom"/>
+	<property name="jada.dir.revisioncontrol" value="_darcs"/>
+	<property name="jada.soot.2.2.5" value="sootclasses-2.2.5.jar"/>
+	<property name="jada.soot.2.3.0" value="sootclasses-2.3.0.jar"/>
+	<property name="jada.soot.2.3.0.chr" value="sootclasses-2.3.0-chr.jar"/>
+	<property name="jada.soot" value="${jada.soot.2.3.0.chr}"/>
+	<property name="final.name" value="jada-11"/>
+	<property name="final.name.src" value="${final.name}-src"/>
+	<property name="final.name.src.full" value="${final.name}-full"/>
+	<property name="final.manifest" value="config/MANIFEST.MF"/>
+	<property name="temp.name" value="jada"/>
+	<property name="jada.license" value="License.html"/>
+	<property name="jada.dir.doc" value="doc"/>
+	<property name="jada.dir.dist" value="dist"/>
+	<property name="jada.dir.dist.lib" value="${jada.dir.dist}/lib"/>
+	<property name="jada.dir.dist.bin" value="${jada.dir.dist}/bin"/>
+	<property name="jada.dir.dist.src" value="${jada.dir.dist}/src"/>
+
+
+	<!-- -->
+	<path id="build.classpath">
+	 <fileset dir="${jada.dir.lib}">
+	  <include name="**/*.jar"/>
+	 </fileset>
+	</path>
+	<!-- -->
+	<target name="JavaDoc">
+        <javadoc
+            classpath="${build.dir.classes}"
+            sourcepath="${build.dir.src}"
+            destdir="${build.dir.javadoc}"
+            maxmemory="${build.maxmem}"
+            windowtitle="Java Dynamic Analyzer">
+        <fileset dir="${build.dir.src}" includes="**/*.java"/>
+        </javadoc>
+    </target>
+	<!-- Compilation -->
+	<target name="Compile" description="Compile the Source-Code">
+	    <mkdir dir="${jada.dir.dist.bin}"/>
+		<echo message="Compiling Sourcecode ..."/>
+	    <javac
+	    	destdir="${jada.dir.dist.bin}"
+	    	deprecation="true"
+	    	debug="false"
+	    	optimize="true"
+	    	fork="true"
+        	memorymaximumsize="${build.maxmem}"
+	    	excludes="**/package.html">
+	     <src>
+	      <pathelement location="${build.dir.src}"/>
+	     </src>
+	     <classpath refid="build.classpath"/>
+	    </javac>
+		<echo message="Compilation Successful."/>
+	</target>
+	<!-- Create-Base Jar -->
+	<target name="BaseJar" description="Create the JAR file" depends="Compile">
+		<jar jarfile="${jada.dir.dist}/${temp.name}.jar">
+			<fileset dir="${jada.dir.dist.bin}" excludes="**/example/**"/>
+			<fileset file="${jada.license}"/>
+		</jar>
+	</target>
+	<!-- Unpack Libraries -->
+	<target name="UnpackLibraries" description="Extract library JAR files.">
+		<unjar dest="${jada.dir.dist.lib}">
+			<fileset dir="${jada.dir.lib}" includes="*.jar"/>
+		</unjar>
+		<echo message="Using Soot ${jada.soot}"/>
+		<unjar dest="${jada.dir.dist.lib}" src="${jada.dir.lib.custom}/${jada.soot}"/>
+	</target>
+	<!-- Clean Libraries-->
+	<target name="CleanLibraries" description="Removes Manifest files, JAR file Seals, and documentation from the used libraries.">
+		<delete>
+			<fileset dir="${jada.dir.dist.lib}/META-INF" includes="**/MANIFEST.MF"/>
+			<fileset dir="${jada.dir.dist.lib}/META-INF" includes="**/*.RSA"/>
+			<fileset dir="${jada.dir.dist.lib}/META-INF" includes="**/*.SF"/>
+		</delete>
+		<delete>
+			<fileset dir="${jada.dir.dist.lib}" includes="*.txt"/>
+		</delete>
+	</target>
+	<!-- Make Libraries -->
+	<target name="MakeLibraries" description="Extract and clean libraries." depends="UnpackLibraries,CleanLibraries"/>
+	<!-- Create Binary Release -->
+	<target name="BinRelease" description="Compile all libraries and classes into the release JAR file." depends="MakeLibraries,BaseJar">
+		<jar destfile="${jada.dir.dist}/${final.name}.jar" manifest="${final.manifest}">
+			<fileset dir="${jada.dir.dist.bin}" excludes="**/package.html"/>
+			<fileset dir="${jada.dir.dist.lib}" excludes="**/package.html"/>
+			<fileset file="${jada.license}"/>
+		</jar>
+	</target>
+	<!-- Create Source Release -->
+	<target name="SrcRelease" description="Compile the Sources and Documentation into the Source Release Folder." depends="JavaDoc">
+		<delete dir="${jada.dir.dist.src}" quiet="true"/>
+		<mkdir dir="${jada.dir.dist.src}"/>
+		<copy todir="${jada.dir.dist.src}/src">
+			<fileset file="${final.manifest}"/>
+			<fileset dir="${build.dir.src}" includes="**/*.java"/>
+		</copy>
+		<copy todir="${jada.dir.dist.src}/javadoc">
+			<fileset dir="${build.dir.javadoc}"/>
+		</copy>
+		<copy todir="${jada.dir.dist.src}/doc">
+			<fileset dir="${jada.dir.doc}"/>
+		</copy>
+		<copy todir="${jada.dir.dist.src}/lib">
+			<fileset dir="${jada.dir.lib}"/>
+		</copy>
+	</target>
+	<!-- Create Source Release JAR File-->
+	<target name="SrcReleaseJar" description="Compile a Source Archive" depends="SrcRelease">
+		<jar destfile="${jada.dir.dist}/${final.name.src}.jar">
+			<fileset dir="${jada.dir.dist.src}"/>
+			<fileset file="${jada.license}"/>
+			<fileset file="${ant.file}"/>
+		</jar>
+		<delete dir="${jada.dir.dist.src}" quiet="true"/>
+	</target>
+	<!-- Clean Distribution Directory -->
+	<target name="Clean">
+	   <delete dir="${jada.dir.dist.bin}" quiet="true"/>
+	   <delete dir="${jada.dir.dist.lib}" quiet="true"/>
+	   <delete quiet="true" file="${jada.dir.dist}/${temp.name}"/>
+	</target>
+	<!-- Clean the Distribution -->
+	<target name="CleanAll">
+	   <delete dir="${jada.dir.dist}" quiet="true"/>
+	   <delete dir="${build.dir.javadoc}" quiet="true"/>
+	</target>
+</project>
